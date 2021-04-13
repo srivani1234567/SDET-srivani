@@ -9,7 +9,9 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -29,6 +31,7 @@ public class CreateOrgAndValidate {
 	public void Orgnization() throws InterruptedException, IOException {
 	int randomnum = j.getrandomnum(1000);
 	String readdatafromExcel = e.readdatafromExcel("EXCELTESTDATASHEET", 1, 3);
+	
 	String orgname=readdatafromExcel+randomnum;
 	
 	String URL = fu.readdatafrompropertiesfile("url");
@@ -74,29 +77,29 @@ public class CreateOrgAndValidate {
      JavascriptExecutor jse=(JavascriptExecutor)driver;
      jse.executeScript("window.scrollBy(0,4000)");
      
-     Thread.sleep(2000);
-
      String normalbtn="S";
      String xpath="(//input[@accesskey='"+normalbtn+"'])[last()]";
      
      driver.findElement(By.xpath(xpath)).click();
-     
-     Thread.sleep(2000);
-     
-     driver.findElement(By.xpath("//td[@align='center']/a[text()='"+modulelink+"']")).click();
-     
-     
+ 
+     wd.waitandclick(driver, "//a[text()='Organizations']");
+     driver.findElement(By.xpath("//a[text()='Organizations']")).click();
+   
      driver.findElement(By.xpath("//input[@class='txtBox']")).sendKeys(orgname);
+     
      WebElement InDD = driver.findElement(By.xpath("//div[@id='basicsearchcolumns_real']/select[@id='bas_searchfield']"));
      wd.selectbyvalue(driver, InDD, Indropdown);
      
      driver.findElement(By.xpath("//input[@name='submit']")).click();
-     Thread.sleep(3000);
-     String actualorgname = driver.findElement(By.xpath("//table[@class='lvt small']/tbody/tr[*]/td[3]/a[@title='Organizations']")).getText();
-     System.out.println(actualorgname);
+     
+     Thread.sleep(2000);
+     WebElement actualorgname = driver.findElement(By.xpath("//table[@class='lvt small']/tbody/tr[*]/td[3]//a[@title='Organizations']"));
+     
+     String actualorgname1 = actualorgname.getText();
+     System.out.println(actualorgname1);
      System.out.println(orgname);
      
-      Assert.assertEquals(orgname, actualorgname);
+      Assert.assertEquals(orgname, actualorgname1);
       
       driver.quit();
 	}

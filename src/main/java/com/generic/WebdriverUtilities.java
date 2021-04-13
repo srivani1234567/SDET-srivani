@@ -23,6 +23,10 @@ public class WebdriverUtilities {
 		driver.manage().window().maximize();
 	}
 	
+	public void refresh(WebDriver driver) {
+		driver.navigate().refresh();
+	}
+	
 	/*Author srivani
 	 * wait till page to be load
 	 */
@@ -196,6 +200,18 @@ public class WebdriverUtilities {
 		
 	}
 	
+	/*@Author srivani
+	 * click on pointed place
+	 * @param  driver
+	 * @param hight
+	 * @param width
+	 */
+
+	
+	public void movebyoffset(WebDriver driver, int hight, int width) {
+		Actions act=new Actions(driver);
+       act.moveByOffset(hight, width).click().perform();
+	}
 
 	/*@Author srivani
 	 * mouse rightclick action
@@ -209,6 +225,7 @@ public class WebdriverUtilities {
 		act.contextClick(element).perform();
 		
 	}
+	
 	
 	/*@Author srivani
 	 * click on accept button in alertpopup
@@ -257,16 +274,24 @@ public class WebdriverUtilities {
 	 * switch to chaildwindow
 	 * @param  driver
 	 */
+	String mainid;
+	String id;
 	public void switchtochaildwindow(WebDriver driver) {
-		String mainid = driver.getWindowHandle();
+		mainid = driver.getWindowHandle();
 		Set<String> allids = driver.getWindowHandles();
 		for(String id:allids) {
-			
+			    
 			if(!mainid.equals(id)){
 				driver.switchTo().window(id);
 			}
 		}
+		
+	}
+	
+	public void switchtomainwindow(WebDriver driver) {
+
 		driver.switchTo().window(mainid);
+
 		
 	}
 
@@ -311,6 +336,7 @@ public class WebdriverUtilities {
 		}
 	}
 
+	
 
 
 	
